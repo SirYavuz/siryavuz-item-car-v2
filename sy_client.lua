@@ -83,11 +83,6 @@ function animasyon()
     end
 end
 
-function random_elem(tb)
-    local keys = {}
-    for k in pairs(tb) do table.insert(keys, k) end
-    return tb[keys[math.random(#keys)]]
-  end
 
   RegisterNetEvent('sy-item-car:araba-spawn')
   AddEventHandler('sy-item-car:araba-spawn', function(item_modeli)
