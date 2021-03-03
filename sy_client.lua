@@ -1,6 +1,8 @@
 ESX  = nil
 local aracmodel = nil
-local listekontrol = nil
+local aracmodel_ic = nil
+local vehicle2 = nil
+local tusEvent = nil
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -8,6 +10,30 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
   end
 end)
+
+Citizen.CreateThread(function()
+    if SYConfig.TusKullan == true then
+        if SYConfig.TusDurumu == false then
+            tusEvent = 'arac-cek-arac-ici'
+        else
+            tusEvent = 'arac-cek'
+        end
+      tusKullanimi()
+    end
+end)
+
+
+function tusKullanimi()
+    if IsControlJustReleased(0, SYConfig.Tus) then
+    -- if SYConfig.TusDurumu == false then
+        TriggerEvent(tusEvent)
+    -- else
+        -- TriggerEvent('arac-cek')
+    -- end
+    end
+    Citizen.Wait(10)
+    tusKullanimi()
+end
 
 local araclistesi = {
 	['ZENTORNO'] = {durum = "true"},
@@ -21,8 +47,53 @@ local araclistesi = {
 
 
 
-RegisterCommand('aracal', function()
-    TriggerEvent('arac-cek')
+RegisterCommand("aracal", function()
+    if SYConfig.DisardanCek == true then
+        TriggerEvent('arac-cek')
+    else
+        TriggerEvent('notification', 'Aracı içindeyken çekin', 2) 
+    end
+end)
+
+RegisterCommand("aracalic", function()
+    if SYConfig.IcerdenCek == true then
+        TriggerEvent('arac-cek-arac-ici')
+    else
+        TriggerEvent('notification', 'Aracın dışından çekin', 2) 
+    end
+end)
+
+RegisterNetEvent('arac-cek-arac-ici')
+AddEventHandler('arac-cek-arac-ici', function()  
+    local playerPed = PlayerPedId()
+  
+    if IsPedInAnyVehicle(playerPed, false) then
+        aracmodel = GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsIn(GetPlayerPed(-1))))
+        TriggerEvent('notification', 'Alınan araç modeli :  ['..aracmodel..']', 1)
+
+        TriggerEvent("mythic_progressbar:client:progress", {
+            name = "cekiliyor_icerden",
+            duration = 3500,
+            label = "Araç Alınıyor",
+            useWhileDead = false,
+            canCancel = true,
+            controlDisables = {
+                disableMovement = false,
+                disableCarMovement = false,
+                disableMouse = false,
+                disableCombat = false,
+            },
+            }, function(status)
+                if not status then
+                    TriggerEvent('esx:deleteVehicle')
+                    animasyon()
+                    TriggerServerEvent('sy-core:esya:ekle', 1, aracmodel)
+                end
+            end)
+
+    else
+        TriggerEvent('notification', 'Araçta değilsin', 2)
+    end
 end)
 
 
@@ -67,10 +138,11 @@ AddEventHandler('arac-cek', function()
                 TriggerServerEvent('sy-core:esya:ekle', 1, aracmodel)
 			end
 	    end)
- else 
-    TriggerEvent('notification', 'Bu aracı çekemezsin', 2)
+    else 
+        TriggerEvent('notification', 'Bu aracı çekemezsin', 2)
     end
-
+    else
+    TriggerEvent('notification', 'Yakında bir araç göremiyorum', 2)
     end
 end)
 
@@ -114,7 +186,6 @@ end
                     end)
                 end
             end)
-       
   end)
 
   
