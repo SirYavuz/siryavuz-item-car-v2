@@ -67,10 +67,10 @@ AddEventHandler('arac-cek', function()
                 TriggerServerEvent('sy-core:esya:ekle', 1, aracmodel)
 			end
 	    end)
- 
-    end
-else 
+ else 
     TriggerEvent('notification', 'Bu aracı çekemezsin', 2)
+    end
+
     end
 end)
 
