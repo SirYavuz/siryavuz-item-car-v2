@@ -3,9 +3,9 @@ local aracmodel = nil
 local tusEvent = nil
 
 Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+  while ESX == nil do
+	TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+	Citizen.Wait(0)
   end
 end)
 
@@ -19,7 +19,6 @@ Citizen.CreateThread(function()
       tusKullanimi()
     end
 end)
-
 
 function tusKullanimi()
     if IsControlJustReleased(0, SYConfig.Tus) then
@@ -38,8 +37,6 @@ local araclistesi = {
 	['SULTANRS'] = {durum = "true"},
 	['T20'] = {durum = "true"}
 }
-
-
 
 RegisterCommand("aracal", function()
     if SYConfig.DisardanCek == true then
@@ -89,7 +86,6 @@ AddEventHandler('arac-cek-arac-ici', function()
         TriggerEvent('notification', 'Araçta değilsin', 2)
     end
 end)
-
 
 RegisterNetEvent('arac-cek')
 AddEventHandler('arac-cek', function()
@@ -149,9 +145,8 @@ function animasyon()
     end
 end
 
-
-  RegisterNetEvent('sy-item-car:araba-spawn')
-  AddEventHandler('sy-item-car:araba-spawn', function(item_modeli)
+RegisterNetEvent('sy-item-car:araba-spawn')
+AddEventHandler('sy-item-car:araba-spawn', function(item_modeli)
     local coords    = GetOffsetFromEntityInWorldCoords(PlayerPedId())
     local heading = GetEntityHeading(playerPed)
     local playerPed = PlayerPedId()
@@ -181,5 +176,3 @@ end
                 end
             end)
   end)
-
-  
