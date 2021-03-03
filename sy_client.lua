@@ -1,7 +1,5 @@
 ESX  = nil
 local aracmodel = nil
-local aracmodel_ic = nil
-local vehicle2 = nil
 local tusEvent = nil
 
 Citizen.CreateThread(function()
@@ -25,11 +23,7 @@ end)
 
 function tusKullanimi()
     if IsControlJustReleased(0, SYConfig.Tus) then
-    -- if SYConfig.TusDurumu == false then
         TriggerEvent(tusEvent)
-    -- else
-        -- TriggerEvent('arac-cek')
-    -- end
     end
     Citizen.Wait(10)
     tusKullanimi()
