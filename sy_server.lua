@@ -50,7 +50,7 @@ ESX.RegisterUsableItem('ZENTORNO', function(source)
     TriggerClientEvent('sy-item-car:araba-spawn', source, item_modeli)
 end)
 
-`RegisterServerEvent('sy-core:esya:ekle')
+RegisterServerEvent('sy-core:esya:ekle')
 AddEventHandler('sy-core:esya:ekle', function(miktar, esya)
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
@@ -65,4 +65,4 @@ AddEventHandler('sy-core:esya:sil', function(miktar, esya)
     local xPlayer = ESX.GetPlayerFromId(_source)
 
     xPlayer.removeInventoryItem(esya, miktar) 
-end)`
+end)
